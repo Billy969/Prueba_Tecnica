@@ -9,14 +9,14 @@ using UnityEngine.UI;
 
 public class ObjectPool : MonoBehaviour
 {
-    // Puntos donde los animales pueden aparecer (se asignan desde el editor)
+    // Puntos donde los objetos 3D pueden aparecer en la escena
     public Transform[] spawnPoints;
 
-    // Prefab del animal que se va a instanciar
+    // Prefabs de los objetos 3D que se van a instanciar
     public GameObject[] ObjectPrefab;
 
 
-    // Tamaño inicial de la piscina de objetos (cantidad de animales a preinstanciar)
+    // Número inicial de objetos en la piscina
     public int poolSize;
 
     // Referencia al sistema de entradas de Unity (Input System)
@@ -49,7 +49,7 @@ public class ObjectPool : MonoBehaviour
 
     }
 
-    // Método que agrega nuevos animales a la piscina
+    // Método para añadir objetos 3D a la piscina
     void AddToPool(int poolSize)
     {
         for (int i = 0; i < poolSize; i++)
@@ -84,6 +84,7 @@ public class ObjectPool : MonoBehaviour
         AddToPool(1);
         return pooledObjects.Last();
     }
+    // Corrutina que activa objetos 3D aleatoriamente desde la piscina
     IEnumerator SpawnTarget()
     {
         while (isGameActive)
@@ -123,12 +124,13 @@ public class ObjectPool : MonoBehaviour
             }
         }
     }
-
+// Actualiza el puntaje y lo muestra
     public void UpdateScore(int scoreToAdd)
     {
         score += scoreToAdd;
         scoreText.text = "Score: " + score;
     }
+    // Lógica al perder el juego
     public void GameOver()
     {
         restartButton.gameObject.SetActive(true);
@@ -136,15 +138,18 @@ public class ObjectPool : MonoBehaviour
         isGameActive = false;
 
     }
+    // Reinicia la escena actual
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+    // Muestra cuántos objetos están activos en la escena
     public void UpdateActiveObjectCount()
     {
         int activeCount = pooledObjects.Count(obj => obj.activeInHierarchy);
         activeObjectsText.text = "Activos: " + activeCount;
     }
+// Asigna un color aleatorio al objeto
 void SetRandomColor(GameObject obj)
 {
     Renderer renderer = obj.GetComponent<Renderer>();
